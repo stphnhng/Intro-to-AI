@@ -1,0 +1,66 @@
+Solution to the Alpha-Beta Search exercise.  CSE 415, Univ. of Wash.
+Autumn 2017.  Steve Tanimoto
+Note that the numbers in square brackets, such as [0] refer to
+nodes of the search tree. [0] is the root (a maximizing node).
+The nodes are in "level order" (breadth-first order).
+The node in the bottom left of the tree is [15] and in the
+bottom right is [30].  The values of alpha and beta that occur
+right after the first occurrence of a node in the output indicate
+what values of alpha and beta have been passed in to either
+max_value or min_value at the given node.
+
+There is one situation in which this output does not label
+a node's v value completely accurately: after a cutoff at a
+child, the new value should sometimes be expressed as an
+inequality.
+
+
+[0]: α=−∞, β=+∞
+    [1]: α=−∞, β=+∞
+        [3]: α=−∞, β=+∞
+            [7]: α=−∞, β=+∞
+                [15]: α=−∞, β=+∞
+            [7] Updating v to: 66
+                [16]: α=−∞, β=66
+            [7] Updating v to: 50
+            Returning 50
+        [3] Updating v to: 50
+            [8]: α=50, β=+∞
+                [17]: α=50, β=+∞
+            [8] Updating v to: 35
+            Alpha-Beta cutoff! v ≤ 35. Returning 35
+        Returning 50
+    [1] Updating v to: 50
+        [4]: α=−∞, β=50
+            [9]: α=−∞, β=50
+                [19]: α=−∞, β=50
+            [9] Updating v to: 15
+                [20]: α=−∞, β=15
+            Returning 15
+        [4] Updating v to: 15
+            [10]: α=15, β=50
+                [21]: α=15, β=50
+            [10] Updating v to: 45
+                [22]: α=15, β=45
+            Returning 45
+        [4] Updating v to: 45
+        Returning 45
+    [1] Updating v to: 45
+    Returning 45
+[0] Updating v to: 45
+    [2]: α=45, β=+∞
+        [5]: α=45, β=+∞
+            [11]: α=45, β=+∞
+                [23]: α=45, β=+∞
+            [11] Updating v to: 5
+            Alpha-Beta cutoff! v ≤ 5. Returning 5
+        [5] Updating v to: 5
+            [12]: α=45, β=+∞
+                [25]: α=45, β=+∞
+            [12] Updating v to: 35
+            Alpha-Beta cutoff! v ≤ 35. Returning 35
+        [5] Updating v to: 35
+        Returning 35
+    [2] Updating v to: 35
+    Alpha-Beta cutoff! v ≤ 35. Returning 35
+Returning 45

@@ -1,0 +1,142 @@
+Stephens-MacBook-Pro:Farmer_Fox_etc stephen$ python ../Int_Solv_Client.py hungs3_Farmer_Fox_etc
+problem_name = hungs3_Farmer_Fox_etc
+Int_Solv_Client (Version 1)
+Farmer, Fox, Chicken, and Grain; 1.0
+
+Step 0, Depth 0
+CURRENT_STATE = 
+ Farmer on left:1
+   Fox on left:1
+   Chicken on left:1
+   Grain on left:1
+ Farmer on right:0
+   Fox on right:0
+   Chicken on right:0
+   Grain on right:0
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+2: Cross the river with 1 Farmers, 0 fox, 1 chicken, and 0 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 2
+Operator 2 selected.
+
+Step 1, Depth 1
+CURRENT_STATE = 
+ Farmer on left:0
+   Fox on left:1
+   Chicken on left:0
+   Grain on left:1
+ Farmer on right:1
+   Fox on right:0
+   Chicken on right:1
+   Grain on right:0
+ boat is on the right.
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+2: Cross the river with 1 Farmers, 0 fox, 1 chicken, and 0 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 0
+Operator 0 selected.
+
+Step 2, Depth 2
+CURRENT_STATE = 
+ Farmer on left:1
+   Fox on left:1
+   Chicken on left:0
+   Grain on left:1
+ Farmer on right:0
+   Fox on right:0
+   Chicken on right:1
+   Grain on right:0
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+1: Cross the river with 1 Farmers, 1 fox, 0 chicken, and 0 grain
+3: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 1 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 3
+Operator 3 selected.
+
+Step 3, Depth 3
+CURRENT_STATE = 
+ Farmer on left:0
+   Fox on left:1
+   Chicken on left:0
+   Grain on left:0
+ Farmer on right:1
+   Fox on right:0
+   Chicken on right:1
+   Grain on right:1
+ boat is on the right.
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+2: Cross the river with 1 Farmers, 0 fox, 1 chicken, and 0 grain
+3: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 1 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 2
+Operator 2 selected.
+
+Step 4, Depth 4
+CURRENT_STATE = 
+ Farmer on left:1
+   Fox on left:1
+   Chicken on left:1
+   Grain on left:0
+ Farmer on right:0
+   Fox on right:0
+   Chicken on right:0
+   Grain on right:1
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+1: Cross the river with 1 Farmers, 1 fox, 0 chicken, and 0 grain
+2: Cross the river with 1 Farmers, 0 fox, 1 chicken, and 0 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 1
+Operator 1 selected.
+
+Step 5, Depth 5
+CURRENT_STATE = 
+ Farmer on left:0
+   Fox on left:0
+   Chicken on left:1
+   Grain on left:0
+ Farmer on right:1
+   Fox on right:1
+   Chicken on right:0
+   Grain on right:1
+ boat is on the right.
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+1: Cross the river with 1 Farmers, 1 fox, 0 chicken, and 0 grain
+3: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 1 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 0
+Operator 0 selected.
+
+Step 6, Depth 6
+CURRENT_STATE = 
+ Farmer on left:1
+   Fox on left:0
+   Chicken on left:1
+   Grain on left:0
+ Farmer on right:0
+   Fox on right:1
+   Chicken on right:0
+   Grain on right:1
+
+0: Cross the river with 1 Farmers, 0 fox, 0 chicken, and 0 grain
+2: Cross the river with 1 Farmers, 0 fox, 1 chicken, and 0 grain
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 2
+Operator 2 selected.
+
+Step 7, Depth 7
+CURRENT_STATE = 
+ Farmer on left:0
+   Fox on left:0
+   Chicken on left:0
+   Grain on left:0
+ Farmer on right:1
+   Fox on right:1
+   Chicken on right:1
+   Grain on right:1
+ boat is on the right.
+
+CONGRATULATIONS!
+You have solved the problem by reaching a goal state.
+Do you wish to continue exploring?
+
+Y or N? >> N
+The session is finished.

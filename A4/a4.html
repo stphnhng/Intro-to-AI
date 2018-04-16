@@ -1,0 +1,660 @@
+<html><head><title>
+Assignment 4 for CSE 415 (Winter 2018)
+</title>
+<link rel="stylesheet" href="../mystyle.css">
+</head>
+
+
+<center>
+
+<table cellpadding="7" width="600">
+<tr><td><font size=+3 face="Helvetica">
+Assignment 4: Game-Playing Agents
+</font></td></tr>
+
+<tr><td><font size=+1 face="Helvetica">
+CSE 415: Introduction to Artificial Intelligence<br>
+The University of Washington, Seattle, Winter 2018
+</font></td></tr>
+
+<tr><td><img src="../bar.gif" width="600" height="1"></td></tr>
+
+<tr><td>
+This continues the search theme of Assignments 2 and 3 and has the same associated reading:
+Chapter 5 (Search) of
+ <i>Introduction to
+Artificial Intelligence Using Python</i>.
+<br>
+</td></tr>
+
+<tr><td>
+Due Wednesday, February 7 via
+Catalyst CollectIt 
+at 11:59 PM.
+
+
+<br>&nbsp;<br>
+</td></tr>
+
+<tr><td><b>What to Do</b>.
+
+<p>
+In this assignment we explore two-person, zero-sum game playing using
+a family of games called
+"Toro-Tile Straight".
+ Here we put our agents into competition, adding lookahead (with the Minimax technique) and, optionally, pruning (with the alpha-beta method) and caching (with Zobrist hashing) to the search. 
+
+The assignment has two parts: creating your agent and engaging your agent in a first round of competitive play.
+
+<br>&nbsp;<br>
+</td></tr>
+
+
+<tr><td><b>PART I: Creating a Game-Playing Agent (80 points)</b>.
+
+    <p>
+Create a program implementing an agent that can participate in a game of Toro-Tile Straight (defined below).
+Your program should consist of a single file, with a name of the
+form [UWNetID]_TTS_agent.py, where [UWNetID] is your own UWNetID.
+For example, my file would have tanimoto_TTS_agent.py for its name.
+
+<p>
+
+Although you create one Python file for this assignment, it will contain a
+collection of specific functions, for playing games of "Toro-Tile Straight".
+ We define a Toro-Tile Straight game as a kind of generalized
+K-in-a-Row with the following features: 
+
+<ul>
+<li>
+ (a) Just as in a game like Othello,
+ there are two players: one plays White and the other plays Black; 
+ </li>
+
+<li>
+ (b) the
+ board is rectangular, but is not necessarily 3 by 3; it is mRows by
+ nColumns, where these dimensions are chosen by the Game Master (referee) at the
+ beginning of the game;
+ </li>
+
+<li>
+ (c) a player wins by getting K in a row, where
+ K is not necessarily 3; K can be any integer greater than 1;
+ </li>
+
+<li>
+ (d) the topology of the board is <i>toroidal</i>.  This means, that the
+left edge and right edge of the board can be considered equivalent,
+and the top and bottom edges can be considered equivalent.
+If a piece is placed in the left column of the array, then
+moving one unit in the West direction is defined to "wrap around"
+to the rightmost column (but same row).
+Similarly, moving South from the bottom row, wraps around to the
+top of the same column.
+<p>
+<img src="TorusAsSquare.png" width="100" height="100">
+<br>
+The toroidal topology is illustrated above, with line segments A unified,
+as well as line segments B unified. These are at the outer boundaries of the
+array.
+
+<li>
+ (e) there can be
+ "forbidden squares" on the board; these are chosen at the beginning
+ of the game by the Game Master; a square on the board that is available
+ is represented by a blank, whereas a forbidden square is
+ represented by a dash "-" ;
+ </li>
+
+<li>
+ (f) there can be "handicaps" in the initial state, meaning that some
+White and/or Black tiles can be set up on the board by the Game Master in order
+either to influence the succeeding play or to change the balance of advantage and disadvantage
+to the players.
+ </li>
+</ul>
+    <p>
+You can see a full
+<a href="a4/Newman-vs-Dumbell-in-Gold-Rush-round-1.html">
+ transcript of a sample game here</a>.  The two agents that played this game
+are very dumb, but they followed the rules.  The code for each of these agents is part of
+the starter code.  You can use this code to organize the required functions, adding to
+them to create a good player.
+
+</P>
+    <p>
+It will be essential that your program use the specified
+representation of states, so that it is compatible with all the
+other A4 game agents developed in the class.  Here is
+some code for representing states of the game.
+
+    <p>
+
+Your program should be designed to anticipate time limits on
+moves.  There are two aspects to this: (1) use iterative
+deepening search, and (2) poll a clock frequently in order to
+return a move before time runs out.
+
+    <p>
+
+<!--
+Your program should implement the following functions, so that they
+can be called by the game administration software:
+      
+<li> <b>who_am_i()</b>. This function will return a multiline string
+that introduces your player, giving its full name (you get to make
+that up), the names and UWNetIDs of its creators (you), and
+(optionally) some words to describe its character.
+
+<p>
+ </li>
+<li> <b>moniker()</b>. This function should return a short version of the playing agent's name (16
+characters or fewer).  This name will be used to identify the player's moves in game
+transcripts.
+<p>
+
+
+ </li>
+<li> <b>take_turn(current_state, opponents_utterance, timeLimit=10000)</b>.  (corrected from take_a_turn).
+
+This is probably your most important function.  It should return a
+list of the form [[move, newState], utterance].  The move is a data
+item describing the chosen move, of the form <code>((i, j), (new_i, new_j))</code>.
+Here (i,j) gives the row and column coordinates on the board of the piece
+being moved, and <code>(new_i, new_j)</code> gives the coordinates of the
+square where that piece ends up.
+<p>
+  
+The newState is the result of making the move from the given
+current_state.  It must be a complete state and not just a board.
+<p>
+
+The opponents_utterance argument is a string representing a remark from the
+opponent on its last move. (This may be ignored, or you may use it
+when you compute the utterance portion of your own agent's response.)
+
+<p>
+
+The time_limit represents the number of milliseconds available for 
+computing and returning the move.
+
+<p>
+
+The utterance to be returned must be a string.  During a game, the
+strings from your agent and its opponent comprise a dialog.  (However,
+you may simply return a fixed string, such as "Your move!"  For extra
+credit, you may make this more elaborate and context-sensitive,
+commenting on the current state or the direction in which the game
+seems to be heading.)
+
+<p>
+
+ </li>
+
+<li> <b>staticEval(state)</b>.
+
+This function will perform a static evaluation of the given state.
+The value returned should be high if the state is good for WHITE and
+low if the state is good for BLACK.  
+Although you may wish to extend
+the TTS_State class to make staticEval a member of that, it's not
+necessary, and we do need to be able to call your staticEval function
+directly, for example using
+
+  <pre>
+import The_Roman_TTS_Player as player
+staticResult = player.stateEval(some_state)    
+    </pre>
+<p>
+
+A portion (approximately 20 points) of your grade will
+depend on how well your staticEval function works.
+
+ </li>
+</ol>
+-->      
+<p>
+      
+
+<p>
+
+In addition to being able to play the game, your program should make an
+utterance --- that is, a
+comment in each move, as if participating in a dialog.  Ideally, your
+program would have a well-defined "personality". Some examples of
+possible personalities are these: friendly; harmless joker; blunt
+joker; paranoid; wisecracker; sage; geek; wimp; competitive freak;
+fortune-teller (based on the state of the game). The personality will
+be revealed during games via the "utterances" made by the
+program. (For more details, see the description of the take_a_turn
+function below.)
+
+<p> 
+
+Your program must include the following functions. You can have helper
+functions if you like. Please keep all the functions required by your
+player in just one Python file that follows the naming convention
+mentioned earlier.  For example, my player would be in a file
+tanimoto_TTS.py. This will facilitate your player's being part of
+the class tournament.
+
+<ol>
+
+<li> <b>
+get_ready(initial_state, k, what_side_i_play, opponent_moniker).
+</b> This function takes four arguments and it should
+"remember" these values for the game that is about to be
+ played. (However, if your agent is in a match with itself
+say for testing purposes, this
+get_ready method will be called twice. In this case, be careful not to 
+let the agent assume it is playing 'B' on both turns.)
+ <p> 
+
+The first parameter, initial_state, allows your agent to figure out
+any needed properties of the game board before the playing begins.
+
+It is a legal game state that can be used by your player, for example,
+to determine the dimensions of the board, the locations of forbidden
+squares, and even the locations of any handicap items.
+
+The second parameter, k, is the number of pieces in a row (or column
+or diagonal) needed to win the game.
+
+ <p> 
+The parameter <b>what_side_i_play</b> is 'W' if your agent will play as White; it is
+'B' if your agent will play Black.
+ <p> 
+The parameter <b>opponent_moniker</b> allows your utterance-generation mechanism to refer
+to the opponent by name, from time to time, if desired.
+ <p> 
+
+Note that your program does not really have to do much at all when its
+get_ready method is called.  The main thing it should do is return
+"OK". However, the <b>get_ready</b> function offers your agent an
+opportunity to do any initialization of tables or other structures
+without the "clock running."
+
+This is good for setting up for, say, Zobrist hashing, if you are
+using that.  Another kind of preprocessing would be to make, for each
+of the four directions in which a win can occur, a list of all the
+squares on the board where such a winning line could actually start.
+Having these lists can save time in your static evaluation function.
+
+ <p>
+
+ </li>
+<li> <b>who_am_i()</b>.
+
+This function will return a multiline string that introduces your
+player, giving its full name (you get to make that up), the name and
+UWNetID of its creator (you), and some words to describe its
+character.
+
+<p>
+ </li>
+<li> <b>moniker()</b>. 
+
+This function should return a short version of the playing agent's
+name (16 characters or fewer).  This name will be used to identify the
+player's moves in game transcripts.
+
+<p>
+
+ </li>
+<li> <b>take_a_turn(current_state, opponents_utterance, time_limit=10000)</b>.  
+
+This is probably your most important function.  It should return a
+list of the form [[move, new_state], new_utterance].  The move is a data
+item describing the chosen move.
+
+The new_state is the result of making the move from the given
+current_state.  It must be a complete state and not just a board.
+
+The opponents_utterance argument is a string representing a remark from the
+opponent on its last move.
+
+The time_limit represents the number of <strike>milliseconds</strike><font color="red">seconds</font> available for
+computing and returning the move.
+
+<p>
+
+The new_utterance to be returned must be a string.  During a game, the
+strings from your agent and its opponent comprise a dialog.  Your
+agent might contribute to this dialog in three ways:
+
+<ol>
+<li>
+by convincingly representing the character that you have chosen or designed for your agent,
+  </li>
+<li>
+by showing awareness of the game state and game dynamics (changes in the game state), and
+  </li>
+<li>
+by responding in a convincing way to the opponent's remarks.
+  </li>
+</ol>
+<p>
+
+ </li>
+<li> <b>tryout(**keywordargs)</b>.  
+See the PlayerSkeleton.py file for details on this function.  It is important that
+you implement this function in a manner consistent with the options you are
+handling, such as alpha-beta pruning and/or Zobrist hashing.  
+Certain basic features of your code may also be tested using this function, and
+so you'll want to handle this well, both for testing your own code as you go and
+to allow any autograder system to award you as many points as possible.
+
+ </li>
+
+<li> <b>static_eval(state)</b>.
+
+This function will perform a static evaluation of the given state.
+The value returned should be high if the state is good for White and low
+if the state is good for Black.  See the starter code in PlayerSkeleton.py
+for where to handle the two required versions of this.  Here is a description
+of these two versions:
+<ol>
+<li>basic_static_eval(self):
+This is probably the very first function you should implement.
+It must compute the following value accurately (whereas with your
+custom function, you'll get to design the function to be computed).
+Depending on the game type, there will be a particular value of K,
+the number of tiles a player must place in a straight line in order
+to win.  
+Based on the initial state of the game, there is some number T of possible
+instances of a line of K tiles that do not involve any forbidden squares.
+Your function should return C(White, 2) - C(Black, 2).  Here C is a count
+of the number of these lines that have exactly this number (here 2) of
+the specified color of tiles and are otherwise vacant (not blocked).
+Note that if a line of K tiles has exactly 3 White tiles, it should NOT
+count in C(White, 2).  Keep in mind that each vacant square on the board
+is potentially the beginning of 4 different lines of K tiles each, going
+in 4 of the 8 allowed directions.  (We don't want to consider all 8 directions
+because then we would double count lines, once at the beginning of the line
+and once at the end.)  As stated elsewhere, the lines can wrap around, according
+to the toroidal topology of the board space.  If the game type happened to be
+K = 3 on a 3x3 board with no forbidden squares, then we would have T=36,
+because of the nine possible starting squares and the four possible directions,
+and your basic_static_eval function would potentially examine each of three
+squares (because K=3) 36 times to see how many of them had exactly 2 Whites, and then do all
+this again to find out how many of them had exactly 2 Blacks.
+(Note: You do not have to implement the function C described above, e.g., for
+general K.  It was only used
+above to explain what your basic_static_eval function needs to compute.)
+You can implement the counting however you like. (You might even find an efficient
+way to get the answer without so much repeated examination of the same squares
+on the board.)
+<p>
+An autograder will be checking to make sure your function comes up with the right
+numbers for various given states.
+ </li>
+
+<li>custom_static_eval(self):
+You get to design this function. You'll want it to perform "better" than the
+basic function above.  Here better could mean any of the following:
+(a) more accurate assessment of the value of the board, to better inform
+the choice of the best move, (b) faster to compute, or (c) achieving a better
+combination of accuracy and efficiency than the basic function.
+(It might be less efficient, but a lot more accurate, for example.)
+<p>
+Two motivations for putting some thought into this function are: (i) your
+agent's ability to play well depends on this function, and (ii) an autograder
+will likely try comparing your function's values on various states, looking for
+reasonable changes in value as a function of how good the states are, in terms
+of likelihood of a win.
+ </li>
+
+</ol>
+</ol>
+</td></tr>
+
+<tr><td><b>Potentially Useful Python Technique</b>
+<p>
+When one of the game master programs calls your
+take_turn function or a testing program calls your tryout function,
+you may convert the current_state object into your own derived subclass
+object as follows, assuming your own State class is named My_TTS_State:
+<pre>
+current_state.__class__ = My_TTS_State
+</pre>
+Then you will be able to invoke your own methods on it, such as
+static_eval.
+</td></tr>
+
+<tr><td><b>Required and Optional Features</b>
+The following features either must be implemented or
+may be implemented.
+<ol>
+ <li>
+Minimax search (required).  The number of ply to use
+should be a parameter to this method.  You may name
+it however you wish, as long as it is obvious what
+it is for.  Note that in the tryout function,
+the max_ply will typically specified for you, and your
+program should follow that.
+ </li>
+ <li>
+Iterative deepening (required).
+Your should create an "anytime" algorithm by finding
+a legal move quickly, and then as time permits, finding
+better and better moves.  When there is no longer enough
+time to safely compute a better move, then the best move
+found so far should be returned.  You will do this by
+running your minimax search to deeper and deeper levels.
+However, note that in the tryout function, you'll need to
+be able to turn the iterative deepening technique on or off,
+to support discovering the differences it leads to.
+ </li>
+<li>
+"Interesting" utterances (required). Although this is required,
+you may choose either of two options, or, for 5 points of extra credit, do both,
+creating utterances each of which contributes both to the distinctive
+character of the agent (as in option a) and sensible observations about
+the game (as in option b).
+<br>
+<b>Option (a)</b>: program your agent in such a way that it reveals a personality
+through its utterances.  The utterances should not repeat often.
+Let us say 10 is the minimum number of turns, before one of these
+utterances can be repeated. Here is an example of this type of utterance:
+"Although I hate waiting in lines, I'm going to make a nice long one!"
+(The personality here is one of a joker.)
+<br>
+<b>Option (b)</b>: Each utterance should report on an actual feature of
+the state of the game, and you should have either two or three features.
+The features should be worked into a reasonably natural-sounding
+English remark.  The feature could be the static value of the new state,
+or its backed-up (via minimax) value.  Or it could the length of the longest
+line of Ws or Bs on the board and who has it.  You are encouraged to make
+up your own measurable feature of the board that, when reported in
+the utterance, would be an interesting observation about the state
+of the game.  Here is an example utterance of this type:
+"This is not going well for me, since the minimax value of this new
+state is -4.7.  Furthermore, I see you have a line of 4, whereas 
+my longest line has only 3."
+ </li>
+ <li>
+Alpha-beta pruning (optional for 5 points of extra credit).
+In each turn, print out the maximum depth of the
+minimax search, the total number of states visited,
+ followed by the number of cutoffs occuring due to
+alpha-beta pruning.
+<p>
+This feature may be autograded, in which case, the move-generation order will
+need to controllable: (a) for basic cutoff testing the move order will be pre-specified, and (b)
+whereas for testing in a more realistic setting, the move order should be planned to
+increase the likelihood of cutoffs, and it is up to you do decide how to do it.
+(You could base it on a quick static evaluation, or on something involving Zobrist hashing, etc.)
+ </li>
+ <li>
+Zobrist Hashing (optional for 5 points of extra credit).
+Implement this in a way that you can easily turn it
+on or off.
+See the tryout function stup in the PlayerSkeleton.py
+file for what statistics to compute and report related
+to Zobrist hashing.
+<!--
+After you implement this, determine the extent to
+which it is improving the quality and/or speed of play.
+This should include determining what fraction of the
+computing time is taken up by state evaluations
+with and without ZH, and the extent to which more states can be
+evaluated within the same time limits.
+(Determine an average, per turn, over the course of a
+full game, of the numbers of static evaluations, internal-node state evaluations
+at ply p for the range of ply values done by your minimax during
+the game, and number of evaluations handled by retrieving hashed
+items via ZH.)  Finally, come up with a percentage of evaluations that
+get successfully handed by retrieving hashed values.
+-->
+ </li>
+
+</ol>
+
+<tr><td><b>PART II: Game Transcript (20 points)</b>.
+
+<p>
+Follow the directions below to produce a transcript of a match
+between your agent and another student's agent.
+
+<p>
+
+Using the timed_tts_game_master.py program to run a Gold Rush match, create
+a transcript of a game between your agent and the agent of another
+student in the class.
+
+Set up the match so that your agent plays White and your opponent plays
+Black.  Use the following game instance for your match.  
+For this run, you
+should set a time limit of 1.00 seconds per move.
+This can be specified on the command line when you run
+timed_tts_game_master.py.
+
+<p>
+Here is
+<a href="https://www.cs.washington.edu/education/courses/cse415/18wi/uwnetid/a4_starter_code.tar">
+the starter code for this assignment</a>
+<p>
+
+The following is the representation of the initial board in a TTS game we are calling
+"Gold Rush" in which the objective is to get a (connected) line segment of five tiles.
+The line may go horizontally, vertically, or diagonally.
+<pre>
+              [[['-',' ',' ','-',' ',' ','-'],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                ['-',' ',' ','-',' ',' ','-'],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                ['-',' ',' ','-',' ',' ','-']], "W"]
+</pre>
+Note that in the following state, White has just won, because there is a
+diagonal line of Ws that starts near the lower left corner of
+the space, and continues up and to the right, wrapping around twice in
+the toroidal space (once from right to left, and once from top to bottom).
+With the upper-left square (which happens to be forbidden in this game) at row 0, column 0,
+we can describe White's winning line as this sequence of locations:
+[(3,5), (2,6), (1,0), (0, 1), (6, 2)]
+<pre>
+              [[['-','W',' ','-',' ',' ','-'],
+                ['W',' ',' ',' ',' ',' ','B'],
+                [' ',' ',' ',' ','B','B','W'],
+                ['-',' ',' ','-',' ','W','-'],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ','B',' ',' ' ' ',' '],
+                ['-',' ','W','-',' ',' ','-']], "B"]
+</pre>
+It is not required that the line of tiles involve the toroidal wraparound.
+Five in a line somewhere near the middle of the board could also win, for example.
+However, the wraparound feature can often help to open up many more possibilities for winning.
+<p>
+The timed_tts_game_master program will automatically generate an HTML file containing a formatted game
+transcript of your game.  Turn in that HTML file.
+
+</td></tr>
+
+<tr><td><b>Competition Option</b>.
+
+<p>
+
+You can earn extra credit by having your agent participate in a
+competition.  To enter the competition, first your agent must qualify,
+and then you submit your evidence of qualification.  For your agent to
+qualify, you must submit game transcripts for two games that meet the
+following criteria.
+
+<ol>
+<li>
+Each game must be between your agent and a different opponent.
+ </li>
+<li>
+Your agent must be the winner of each of these two games.
+ </li>
+<li>
+
+The games must involve a version of
+Toro-Tile Straight in which (a) K is at least 5 and the board is at least 7 by
+7, but it can be bigger if you wish. (I.e., you may use the Whites_Challenge_Game_Type
+or the Gold_Rush_Game_Type).
+<p>
+If you submit two game transcript files, then we will assume that you
+are saying that your agent has won both games, and it therefore qualifies
+for the competition.
+
+</li>
+</ol>
+
+If you enter your agent and it does qualify, you
+will automatically get 5 more points of extra credit, even if your
+agent doesn't win any more games.  If your agent is a finalist (one of
+the top 20 percent of the qualifying contestants), you'll get 5 more points of
+extra credit.  Finally, if your agent is the overall winner,
+you'll receive five additional points or a total of 15
+points for participating in and winning the competition.
+
+</td></tr>
+
+<tr><td><b>What to Turn In</b>.
+
+<p>
+
+<p>Turn in at least one Python file (the one for your agent).
+If you have created one or two new Python files that your
+agent needs to import, include those as well (named properly).
+Do not turn in any of the starter code files.
+
+
+Turn in either one or two game files (Two if your agent has qualified
+and you are entering it in the competition.)  The game files are the
+HTML files that are automatically created when you match up your player
+with the opponent.
+
+</td></tr>
+
+<tr><td><b>Updates and Corrections</b>:
+    <p>
+The name of the function for making your move should be <font color="red"><code>take_turn</code></font>, rather than
+<code>take_a_turn</code>. The spec above has been updated. The starter code was using
+the name <code>take_turn</code> all along.
+<p>
+The times should be in seconds (not milliseconds) for the take_turn function, so that
+we are using seconds everywhere in the assignment. 
+<p>
+The deadline was moved back from Feb. 5 to Feb. 7.  The main program name was
+clarified on Jan. 31, and it should be of the form [UWNetID]_TTS_agent.py.
+If necessary, additional updates and corrections will be posted here and/or mentioned in class, in GoPost,
+or via the mailing list. 
+
+</td></tr>
+<tr><td><b>Feedback Survey</b>
+<p>
+  After submitting your solution, please answer this
+  <a href="https://catalyst.uw.edu/webq/survey/tanimoto/348819">survey</a>
+</td></tr>
+
+</table>
+</center>
+
+</body>
+</html>
+

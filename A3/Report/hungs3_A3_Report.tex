@@ -1,0 +1,204 @@
+\documentclass[12pt]{exam}
+\usepackage{tabu}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\newcommand{\ppp}{\par \noindent}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ds}{\displaystyle}
+
+\pagestyle{empty} 
+
+\renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
+
+\begin{document}
+
+\centerline{\textbf{MATH 327 Homework 2}}
+\centerline{Stephen Hung}
+
+\bigskip
+
+\begin{questions}
+
+\question Item 1: DFS Performance
+
+Length of solution path found: 40 edges$\\$
+40 states expanded.$\\$
+MAX$\_$OPEN$\_$LENGTH = 7
+
+The length of the solution path found is the amount of operations required for the algorithm to go from the initial starting state to the goal state. This is important when comparing search algorithms because it demonstrates which algorithm can find the most efficient solution path. In addition, the length of the solution path may come at the cost of memory.
+
+The states expanded represents the number of times states had an operation performed to it. This is important when comparing search algorithm because it demonstrates which algorithm is the most efficient for traversing the graph and memory usage.
+
+MAX$\_$OPEN$\_$LENGTH represents the maximum amount of states that were stored at one time to be checked. This is important when comparing search algorithms because it demonstrates the amount of memory an algorithm needs for the OPEN list while iterating.
+
+
+\question Item 2: BreadthFS Performance
+
+Length of solution path found: 15 edges$\\$
+70 states expanded.$\\$
+MAX$\_$OPEN$\_$LENGTH = 16
+
+\question Item 3: Iterative-Deepening DFS
+
+Length of solution path found: 15 edges$\\$
+475 States $\\$ 
+MAX$\_$OPEN$\_$LENGTH = 7\\
+
+\question Item 4: Alternative Search Methods for the Towers of Hanoi
+
+\begin{center}
+    \tiny
+    Towers of Hanoi, 4 disks
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] }
+        \hline
+        Algorithm Name & Length of Solution Path & Number of Nodes Expanded & MAX OPEN LENGTH\\
+        \hline
+        Iterative DFS & 40 edges & 40 Nodes Expanded & 7 \\
+        \hline
+        Breadth-First Search & 15 edges & 70 Nodes Expanded & 16 \\
+        \hline
+        IDDFS & 15 edges & 475 states & 7 \\
+        \hline
+    \end{tabu}
+\end{center}
+
+\question Item 5: Blind Search on My A2 Problem Formulations
+
+
+\begin{center}
+    \tiny
+    Farmer, Fox, etc.\\
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] }
+        \hline
+        Algorithm Name & Length of Solution Path & Number of Nodes Expanded & MAX OPEN LENGTH\\
+        \hline
+        Iterative DFS & 5 edges & 6 Nodes Expanded & 3 \\
+        \hline
+        Breadth-First Search & 5 edges & 10 Nodes Expanded & 5 \\
+        \hline
+        IDDFS & 5 edges & 20 states & 3 \\
+        \hline
+    \end{tabu}
+\end{center}
+
+\begin{center}
+    \tiny
+    Find The Number\\
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] }
+        \hline
+        Algorithm Name & Length of Solution Path & Number of Nodes Expanded & MAX OPEN LENGTH\\
+        \hline
+        Iterative DFS & 8 edges & 12 Nodes Expanded & 14 \\
+        \hline
+        Breadth-First Search & 4 edges & 90 Nodes Expanded & 89 \\
+        \hline
+        IDDFS & 4 edges & 34 states & 10 \\
+        \hline
+    \end{tabu}
+\end{center}
+
+\question Item 8: Heuristics for the Eight Puzzle
+
+\begin{center}
+    \tiny
+    Eight Puzzle With Heuristics (puzzle10a)\\
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] | X[l]}
+        \hline
+        Puzzle Instance Name & Puzzle Instance Permutation & Success (Yes/No) & Count of Expanded Nodes & Aborted (Yes/No)\\
+        \hline
+            puzzle10a.py & h$\_$euclidian & Yes & 15 & No \\
+        \hline
+            puzzle10a.py & h$\_$hamming & Yes & 43 & No \\
+        \hline
+            puzzle10a.py & h$\_$manhattan & Yes & 12 & No \\
+        \hline
+            puzzle10a.py & h$\_$custom & Yes & 21 & No \\
+        \hline
+    \end{tabu}
+\end{center}
+
+\begin{center}
+    \tiny
+    Eight Puzzle With Heuristics (puzzle12a)\\
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] | X[l]}
+        \hline
+        Puzzle Instance Name & Puzzle Instance Permutation & Success (Yes/No) & Count of Expanded Nodes & Aborted (Yes/No)\\
+        \hline
+            puzzle12a.py & h$\_$euclidian & Yes & 38 & No \\
+        \hline
+            puzzle12a.py & h$\_$hamming & Yes & 90 & No \\
+        \hline
+            puzzle12a.py & h$\_$manhattan & Yes & 20 & No \\
+        \hline
+            puzzle12a.py & h$\_$custom & Yes & 42 & No \\
+        \hline
+    \end{tabu}
+\end{center}
+
+\begin{center}
+    \tiny
+    Eight Puzzle With Heuristics (puzzle14a)\\
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] | X[l]}
+        \hline
+        Puzzle Instance Name & Puzzle Instance Permutation & Success (Yes/No) & Count of Expanded Nodes & Aborted (Yes/No)\\
+        \hline
+            puzzle14a.py & h$\_$euclidian & Yes & 50 & No \\
+        \hline
+            puzzle14a.py & h$\_$hamming & Yes & 164 & No \\
+        \hline
+            puzzle14a.py & h$\_$manhattan & Yes & 31 & No \\
+        \hline
+            puzzle14a.py & h$\_$custom & Yes & 68 & No \\
+        \hline
+    \end{tabu}
+\end{center}
+
+\begin{center}
+    \tiny
+    Eight Puzzle With Heuristics (puzzle16a)\\
+    \begin{tabu} to 0.8\textwidth {  X[l] | X[l] | X[l] | X[l] | X[l]}
+        \hline
+        Puzzle Instance Name & Puzzle Instance Permutation & Success (Yes/No) & Count of Expanded Nodes & Aborted (Yes/No)\\
+        \hline
+            puzzle16a.py & h$\_$euclidian & Yes & 165 & No \\
+        \hline
+            puzzle16a.py & h$\_$hamming & Yes & 547 & No \\
+        \hline
+            puzzle16a.py & h$\_$manhattan & Yes & 115 & No \\
+        \hline
+            puzzle16a.py & h$\_$custom & Yes & 217 & No \\
+        \hline
+    \end{tabu}
+\end{center}
+
+
+\question Item 9: Evaluating my Custom Heuristic.
+
+(a) First explain how your heuristic works, and the thinking behind it.\\
+        
+    My heuristic takes the average of manhattan, hamming, and euclidian heuristics. However, I also multiply manhattan by 0.1 and euclidian by 2. My reasoning behind this is that when testing puzzle10a, i found out that manhattan expands too many states while euclidian produces the least amount and hamming produces an average amount of states. Furtherore, each of the heuristic functions are admissible and thus by taking the average, my custom heuristic should also be admissible. Thus, I decided to reduce the weight that manhattan had on my heuristic and increase the weight of the euclidian heuristic.\\
+
+    However, as I found out, in other problems besides puzzle10a such as puzzle12a, puzzle14a, and puzzle16a, manhattan ended up being a better heuristic than euclidian or hamming.\\
+
+Let $m = $ Manhattan Heuristic\\
+Let $h = $ Hamming Heuristic\\
+Let $e = $ Euclidian Heuristic\\
+    \begin{center}
+    h$\_$custom = $\frac{(m\cdot0.1) + (h) + (e\cdot 2)}{3}$
+    \end{center}
+
+(b) Second tell whether it actually outperforms any of the other heuristics in terms of lowering the number of expanded states while still solving the problem. \\
+
+My Custom Heuristic does not outperform all other heuristics. Instead, it outperforms some heuristics while performing less than others. For instance in puzzle10a, custom expands 21 states while hamming expands 43. Thus, custom outperforms hamming. However, euclidian expands 15 and manhattan expands 12 thus custom is outperformed.\\
+
+(c) Finally, discuss how you believe the computational cost of computing your heuristic compares with the cost of computing the others.
+
+    I believe the computational cost of computing my custom heuristic is larger than the others. This is because I calculate the average of all other heuristics and thus call all the other functions. This means, that my computational cost is approximately all of the other heuristics' computational cost combined.\\
+
+
+\end{questions}
+
+
+\end{document}

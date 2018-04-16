@@ -1,0 +1,66 @@
+D-108-179-176-52:Find_the_Number stephen$ python ../Int_Solv_Client.py hungs3_Find_the_Number 7 10
+problem_name = hungs3_Find_the_Number
+Int_Solv_Client (Version 1)
+Find The Number; 1.0
+
+Step 0, Depth 0
+CURRENT_STATE = question_phase: 0
+last_m: None
+possibilities: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+0: Is N divisible by 2 after ...
+1: Is N divisible by 3 after ...
+2: Is N divisible by 5 after ...
+3: Is N divisible by 7 after ...
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 1
+Operator 1 selected.
+
+Step 1, Depth 1
+CURRENT_STATE = question_phase: 1
+last_m: 3
+possibilities: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+4: ... subtracting 0 ?
+5: ... subtracting 1 ?
+6: ... subtracting 2 ?
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 5
+Operator 5 selected.
+
+Step 2, Depth 2
+CURRENT_STATE = question_phase: 0
+last_m: 3
+possibilities: [1, 4, 7, 10]
+
+0: Is N divisible by 2 after ...
+1: Is N divisible by 3 after ...
+2: Is N divisible by 5 after ...
+3: Is N divisible by 7 after ...
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 3
+Operator 3 selected.
+
+Step 3, Depth 3
+CURRENT_STATE = question_phase: 1
+last_m: 7
+possibilities: [1, 4, 7, 10]
+
+4: ... subtracting 0 ?
+5: ... subtracting 1 ?
+6: ... subtracting 2 ?
+7: ... subtracting 3 ?
+8: ... subtracting 4 ?
+9: ... subtracting 5 ?
+10: ... subtracting 6 ?
+Enter command: 0, 1, 2, etc. for operator; B-back; H-help; Q-quit. >> 4
+Operator 4 selected.
+
+Step 4, Depth 4
+CURRENT_STATE = question_phase: 0
+last_m: 7
+possibilities: [7]
+
+CONGRATULATIONS!
+You have solved the problem by reaching a goal state.
+Do you wish to continue exploring?
+
+Y or N? >> N
+The session is finished.

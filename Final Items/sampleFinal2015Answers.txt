@@ -1,0 +1,399 @@
+answers to sample final exam.
+
+CSE 415, Spring 2015
+
+
+
+1. (20 points)
+ Give a definition for a Python class URN that can be called with
+a construction call such as 
+marble_jar = URN({'red': 3, 'blue': 1})
+----
+
+class URN_EMPTY(Exception):
+    pass
+
+class URN:
+  def __init__(self, d):
+    self.d = d
+    self.itemlist = []
+    for key, value in self.d.items():
+       self.itemlist += value*[key]
+
+  def DRAW(self):
+    if self.itemlist==[]: raise URN_EMPTY()
+    import random
+    index = random.choice(range(len(self.itemlist)))
+    item = self.itemlist[index]
+    del self.itemlist[index]
+    return item
+
+#--------------------------------------------------
+# Given code:
+marble_jar = URN({'red': 3, 'blue': 1})
+
+try:
+  for i in range(10):
+    print(marble_jar.DRAW())
+except URN_EMPTY as e:
+  print("No more items in urn.")
+
+
+2. (20 points)
+
+Write a Python function definition that returns the heuristic value associated
+with the 15 puzzle, based on the Manhattan distance. Assume here that the blank
+square is represented by 0, and that its distance from its position in the 
+current state to its position in the goal should be included in the sum.
+
+
+sample_start = [[ 2,  7, 12,  1],\
+                [ 0,  5, 10, 15],\
+                [ 4,  9, 14,  1],\
+                [ 6, 11,  3,  8]]
+
+GOAL = [[ 0,  1,  2,  3],\
+        [ 4,  5,  6,  7],\
+        [ 8,  9, 10, 11],\
+        [12, 13, 14, 15]]
+
+#-----------------
+
+def h_manhattan(state):
+  sum = 0
+  for i in range(4):
+    for j in range(4):
+      number = state[i][j]
+      (row,col) = find_position(GOAL, number)
+      sum += (abs(row - i) + abs(col - j)
+  return sum
+
+def find_position(board, number):
+  for i in range(4):
+    for j in range(4):
+      if board[i][j]==number:
+        return (i,j)
+  return "Error, number not found"
+
+
+3. (20 points)
+Consider the following sequence of "facts" that are being entered into an ISA hierarchy
+as part of a knowledge base.
+ An A is a B.
+ An A is a C.
+ An X is a Y.
+ A Z is a C.
+ A Y is an A.
+ A Z is an X.
+
+a. (5 points) Identify the redundant fact.
+ ANSWER: A Z is a C.  (because there is a path from Z to C via X, Y, and A.)
+
+b.    (15 points)
+
+Assume that facts such as these are represented by the edges of a directed
+graph.  For example, the fact "An X is a Y" is represented by an edge from
+a vertex associated with X to a vertex associated with Y.
+Give an algorithm that can find, for any new edge (v1, v2), facts
+made redundant, based on transitivity, by the addition of edge (v1, v2).
+
+Use English or pseudocode to describe the algorithm.   You may assume the
+existence of a set of VERTICES, a set of EDGES, and a function ISA_TEST(x, y)
+that returns True if an x is a y, via any given fact or valid path.
+
+   Input the possibly new fact as the pair (v1, v2).
+
+   If no vertex exists in the graph for v1, then add a new vertex labeled with
+     the string associated with v1.
+   If no vertex exists in the graph for v2, then add a new vertex labeled with
+     the string associated with v2.
+   Add the edge (v1, v2) to the graph.
+
+   Let ANCESTORS be the set of all ancestors of v2 in the graph.
+   We define an ancestor as any vertex that can be reached from v2 via a path
+   in the graph.
+   LET DESCENDANTS be the set of descendants of v1 in the graph.
+   We define a descendant as any vertex having a path from it to v1.
+
+   For each edge (u, w) in EDGES:
+     if U is in DESCENDANTS and w is in ANCESTORS and
+       there is a path from u to w that uses the edge (v1, v2):
+       THEN the edge (u, w) is made redundant by the addition of (v1, v2)
+
+
+
+4. (20 points).
+
+ Consider the wicked problem of providing enough food for the expected world
+population in the year 2050.  There are many ways that someone could think about
+trying to solve this problem, including such things as developing micro gardens
+that people could have in their houses, like fish aquariums, 3D printers that
+print food from ingredients like wheat flour and corn syrup, genetic engineering
+of protein producers, etc.  Illustrate the state-space search method of structuring
+a problem by making up possible (or at least conceivable) entries for each of the
+following components:
+
+ a. initial state (5 points). Suggest at least two state variables and explain
+the ranges of values that they could take one.
+
+ANSWER:
+
+ (There is no particular "correct" answer, but you should have a data structure
+  here, possibly in Python, and some relevant ideas that come across clearly.
+  The answer given here is intended to suggest the sort of answer we are looking
+  for on this question.)
+
+ INITIAL_STATE = {'global_food_production_per_annum': 7, 
+                  'wastage: 1.5',
+                  'cost': 1500, 
+                  'funds available': 100,
+                  'years left': 35}
+ # global_food_production_per_annum and wastage are in petacalories.
+ # cost and funds available are in billions of dollars, per annum.
+ 
+
+ b. at least two operators (10 points) including their preconditions and state-transformation
+functions.  These could represent actions that a company or that a government might take
+to help solve the problem.
+
+ (Operator 1:
+    Name: Design and build micro gardens with LED lighting and gen. eng. plant strains.
+    Precondition: Funds available are greater than 10 billion per annum.
+    State transf: Increase global_food... by 2 %, increase cost by 10 billion,
+      reduce funds available by 10 billion; years_left -= 1.)
+
+ (Operator 2:
+    Name: Reduce wastage via info. systems and logistics.
+    Precondition: wastage > 0.2 and funds available > 1
+    State transf: wastage reduced by 30 percent. Funds avail. reduced by 1 billion.
+      years_left -= 1.)
+
+ (Operator 3:
+    Name: Improve agriculture yields.
+    Precondition: funds avail > 5
+    State transf: Increase global_food... by 10%, Funds avail. reduced by 2 billiion.
+     years_left -= 1.)
+
+ c. a goal criterion (5 points) consisting of a predicate that could be applied to
+a state to determine whether or not a path has been found through the state space
+that represents a solution plan.
+
+  Goal criterion: global_food... >= 9; wastage at 0.5. funds available > 0, years_left > -1.
+
+
+5. (20 points)
+ Bayes Rule tells us how to get posterior probabilities from priors, likelihoods and evidence:
+ P(H | E) =  P(E | H) P(H) / P(E).
+
+ When the evidence consists of a sequence of features e_0, e_1, ..., e_{n-1},
+  the joint probability distribution of these features and H can be an intractibly large table.
+  For example, if each e_i has two possible values and H can have two possible values, the
+  table would be of size 2^{n+1}.
+
+ a. (10 points).
+ As a practical matter, it is common to assume that this joint probability distribution can
+ be factored, as if the e_i given H were conditionally independent.  Complete the formula
+ that gives this approximation:
+
+ P(E | H ) = P( e_0 and e_1 and ... and e_{n-1} | H ) ~ 
+
+ANSWER: P(e_0 | H) P(e_1 | H)  ... P(e_{n-1} | H)
+
+ b. (10 points). 
+ What will happen to a classifier using the model above if the estimate of 
+ likelihood P(e_i | H) is set to 0 due to bad luck with sampling the distribution?
+
+ANSWER: The presence of any P(e_i | H) being zero causes the entire estimate of
+P(E | H) to be 0, which makes it impossible using Bayes' Rule for P(H | E) to get
+a nonzero probability.
+
+ Suggest a way to fix this without doing any more sampling.
+
+ANSWER:
+Put a small nonzero value (e.g., 1) into every slot of the table of counts used to
+estimate the P(e_i | H) values.  Then normalize all the estimates so that the sums
+of probabilities of mutually exclusive events are equal to 1. For example.
+If P(light rain | good fishing) seems to be 5 out of 5 and P(not light rain | good fishing)
+seems to be 0 out of 5, based on the counts from observations, change those to
+5/6 and 1/6.
+
+
+6. (20 points). Consider the following joint probability distribution.
+
+ e_0 = L = light rain
+ e_1 = W = warm temperature
+ G = good fishing 
+
+ L  W  G   P(L,M,G)
+---------------
+ T  T  T   0.2
+ T  T  F   0.05
+ T  F  T   0.05
+ T  F  F   0.1
+ F  T  T   0.05
+ F  T  F   0.2
+ F  F  T   O.05
+ F  F  F   O.3
+
+a. (5 points).
+Compute the following marginal probabilities:
+P(L)   ANSWER: 0.2 + 0.05 + 0.05 + 0.1 = 0.4
+P(W)   ANSWER: 0.2 + 0.05 + 0.05 + 0.2 = 0.5
+P(G)   ANSWER: 0.2 + 0.05 + 0.05 + 0.05 = 0.35
+
+b. (5 points)
+Compute the following likelihoods:
+P(L | G)    ANSWER:  (0.2 + 0.05) / 0.35 = 5/7
+P(L | ~G)   ANSWER:  (0.05 + 0.1) / 0.65 = 3/13
+P(W | G)    ANSWER:  (0.2 + 0.05) / 0.35 = 5/7
+P(W | ~G)   ANSWER:  (0.05 + 0.2) / 0.65 = 5/13
+P(~L | G)   ANSWER:  1 - P(L | G) = 2/7
+
+c. (5 points)
+Use Bayes' Rule to compute P(G | ~L ^ W), which is the probability of
+good fishing given the conditions that there's no light rain but the
+temperator is warm.
+
+P(G | ~L ^ W) =  P( ~L ^ W | G) P(G) / P( ~L ^ W)
+  = (0.05 / 0.35) (0.35) / (0.05 + 0.2)  
+  = (0.05) / (0.25) = 1/5
+
+d. (5 points)
+Use the Naive Bayes technique to estimate P(G | ~L ^ W).
+
+P(G | ~L ^ W) ~  P(~L | G) P(W | G) P(G) / P( ~L ^ W)
+   = (2/7) (5/7) (0.35) / (0.25)
+   = 14.0 / 49 = 2/7
+
+7. (20 points)
+
+Consider the following semantic grammar for a robot control interface.
+
+
+<command> ->  <operation> the <object> 
+<command> ->  <command> and then <command>
+<command> ->  help on <operation>
+<operation> -> store | wash | tidy up | get me
+<object> -> dinner plates | table | wine glasses | silverware
+
+Draw a parse tree for the following command:
+
+tidy up the table and then get me the wine glasses
+
+8. (20 points).
+
+Suppose we are going to apply the Hough transform to identify those
+light (not dark)
+horizontal and vertical lines that have the greatest evidence of
+occurrence in a binary image.   The binary image uses pixel value
+0 to represent black and pixel value 1 to represent white.
+
+Here is the binary image
+
+
+1  0  0  1  0
+
+0  0  0  0  0
+
+1  1  0  1  1
+
+0  1  0  1  0
+
+0  1  0  0  0
+
+a. (10 points)
+Fill in the values of the array that represents H(theta, rho).
+
+ANSWER:
+                         rho
+               -2   -1    0    1    2
+
+theta:  0       1    2    4    0    2
+
+        pi/2    2    3    0    3    1
+
+Also acceptable (assuming theta represents the angle between the
+  x axis and a perpendicular to the line):
+                2    3    0    3    1
+                1    2    4    0    2
+
+
+b. (5 points)
+Circle the largest element of this array.
+ANSWER:  (4)
+
+c. (5 points)
+Draw a line on the binary image that corresponds to this largest element.
+ANSWER: (A horizontal line through the middle of the array)
+
+9. (20 points)
+
+a. (15 points)
+ State the three laws of robots, according to Isaac Asimov.
+
+ANSWER:
+1. A robot may not injure a human being, or through inaction, allow
+a human being to come to harm.
+
+2. A robot must obey the orders given to it by human beings, except
+where such orders would conflict with the First Law.
+
+3. A robot must protect its own existence as long as such protection
+does not conflict with the First or Second Laws.
+
+
+   (5 points)
+b. Explain one of the difficulties of achieving the design and deployment of
+robots that adhere to these laws.
+
+ANSWER: Determining whether a possible action A might violate the 1st law
+could be extremely difficult to judge, since A might have consequences far
+in the future that cause harm.  For example, telling a robot to plant
+crops at a farm, rather than let a field lay fallow, might cause a shortage
+of food in a later year that could contribute to starvation.
+
+10. (20 points).
+According to Ray Kurzweil, something remarkable can be expected to happen in the
+future, possibly around the year 2041. 
+
+a. (5 points)
+What is the name he gives to this predicted phenomenon?
+
+ANSWER: "the singularity"
+
+b. (10 points)
+Describe the basic idea of the phenomenon.
+
+ANSWER: Advances in artificial intelligence, computer technology, biology, and
+brain science, have been progressing at exponential rates.  As these developments
+continue, and as they come to support one another, we can expect a confluence of
+scientific and technical progress that permits artificially intelligent systems
+to improve themselves more and more rapidly until a seeming explosion of intelligence
+occurs in artificial systems.  It is this explosion of power of AI that is the
+predicted phenomenon known as the singularity.
+
+c. (5 points)
+To what extent do you agree with this prediction, and why?
+
+ANSWER:  I believe that the current trends of increasingly rapid progress in
+AI and biology are likely to continue, and that they will increasingly have
+interactions:  AI systems will help us learn more about biological systems and
+about the human brain.  That knowledge will help us to improve AI systems.
+Robots and automatic programming systems will facilitate the creation of more
+powerful AI systems and better robots.   Whether we consider the resulting
+improvements in technology to be an explosion or a singularity will depend
+on the time frame from which we judge the phenomenon.   From the time scale
+of human history, this improvement will definitely look like a singularity
+on a graph of technical knowledge vs time.   However, zooming way in on the
+curve, it might still look continuous and finite.  It might be superexponential
+growth, but even a superexponential function can be continuous and everywhere
+differentiable, theoretically speaking.
+
+(NOTE: This is an example answer that would be acceptable.  Various other
+answers would also be fine.)
+
+
+
+
+
+

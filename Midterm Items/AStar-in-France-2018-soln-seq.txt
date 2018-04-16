@@ -1,0 +1,52 @@
+Step-by-Step record of the A* algorithm in action,
+as it computes a shortest path from Rennes
+to Avignon using the distances and heuristic
+values given on the Jan. 12, 2018 worksheet.
+The distances are based on actual road distances,
+and each unit represents approximately 100 km.
+
+OPEN list (priority queue)
+ Iteration  Node Expanded   Updates
+
+OPEN = [(R,6)]
+   0       R               compute g(Br)=2,   f(Br)=11
+	   		   compute g(Cae)=2,  f(Cae)=7
+			   compute g(Nant)=1, f(Nant)=7
+			   compute g(P)=3,    f(P)=6
+OPEN = [(P,6),(Cae,7),(Nant,7),(Br,11)]
+   1       P               compute g(Cal)=6,  f(Cal)=9
+                           compute g(D)=6,    f(D)=6
+			   compute g(Li)=7,   f(Li)=10
+			   compute g(Nanc)=7, f(Nanc)=8
+OPEN = [(D,6),(Cae,7),(Nant,7),(Nanc,8),(Cal,9),(Li,10),(Br,11)]
+   2       D               compute g(ly)=8,   f(Ly)=8
+                           compute g(S)=9,    f(S)=12
+OPEN = [(Cae,7),(Nant,7),(Ly,8),(Nanc,8),(Cal,9),(Li,10),(Br,11),(S,12)]
+   3       Cae             update  g(Cal)=3,  f(Cal)=6
+OPEN = [(Cal,6),(Nant,7),(Ly,8),(Nanc,8),(Li,10),(Br,11),(S,12)]
+   4       Cal             nothing
+OPEN = [(Nant,7),(Ly,8),(Nanc,8),(Li,10),(Br,11),(S,12)]
+   5       Nant		   compute g(Bo)=4,   f(Bo)=9
+                           update  g(Li)=4,   f(Li)=7
+OPEN = [(Li,7),(Ly,8),(Nanc,8),(Bo,9),(Br,11),(S,12)]
+   6       Li		   compute g(T)=7,    f(T)=10
+OPEN = [(Ly,8),(Nanc,8),(Bo,9),(T,10),(Br,11),(S,12)]
+   7       Ly              compute g(A)=10,   f(A)=10
+                           compute g(G)=9,    f(G)=10
+OPEN = [(Nanc,8),(Bo,9),(A,10),(G,10),(T,10),(Br,11),(S,12)]
+   8       Nanc            nothing
+OPEN = [(Bo,9),(A,10),(G,10),(T,10),(Br,11),(S,12)]
+   9       Bo              nothing
+OPEN = [(A,10),(G,10),(T,10),(Br,11),(S,12)]
+   10      A               Goal found. Terminate with shortest path R,P,D,Ly,A
+
+This required expanding 10 nodes.  R was expanded in Step 0,
+but A was not really expanded in Step 10, because its successors 
+were not generated.
+
+Notes: The path is found by backtracing predecessor links from A.
+There is another solution R,Nant,Li,Ly,A  having the same cost.
+We have been assuming that the priority queue breaks ties by using 
+alphabetical ordering of the node names, and that's why we found
+the path we did.
+

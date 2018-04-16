@@ -1,0 +1,98 @@
+
+
+puzzle10a.py:
+CREATE$\_$INITIAL$\_$STATE = lambda: State([4, 5, 0, 1, 2, 3, 6, 7, 8])
+
+h$\_$euclidian:\\
+Length of solution path found: 10 edges\\
+15 states expanded.\\
+MAX OPEN LENGTH = 16
+
+h$\_$hamming:\\
+Length of solution path found: 10 edges\\
+43 states expanded.\\
+MAX OPEN LENGTH = 33
+
+h$\_$manhattan:\\
+Length of solution path found: 10 edges\\
+12 states expanded.\\
+MAX OPEN LENGTH = 12
+
+h$\_$custom:\\
+Length of solution path found: 10 edges\\
+21 states expanded.\\
+MAX OPEN LENGTH = 20
+
+
+puzzle12a.py:
+CREATE$\_$INITIAL$\_$STATE = lambda: State([3, 1, 2, 6, 8, 7, 5, 4, 0])
+
+h$\_$euclidian:\\
+Length of solution path found: 12 edges\\
+38 states expanded.\\
+MAX OPEN LENGTH = 30
+
+h$\_$hamming:\\
+Length of solution path found: 12 edges\\
+90 states expanded.\\
+MAX OPEN LENGTH = 71
+
+h$\_$manhattan:\\
+Length of solution path found: 12 edges\\
+20 states expanded.\\
+MAX OPEN LENGTH = 18
+
+h$\_$custom:\\
+Length of solution path found: 12 edges\\
+42 states expanded.\\
+MAX OPEN LENGTH = 33
+
+
+
+puzzle14a.py:
+CREATE$\_$INITIAL$\_$STATE = lambda: State([4, 5, 0, 1, 2, 8, 3, 7, 6])
+
+h$\_$euclidian:\\
+Length of solution path found: 14 edges\\
+50 states expanded.\\
+MAX OPEN LENGTH = 34
+
+h$\_$hamming:\\
+Length of solution path found: 14 edges\\
+164 states expanded.\\
+MAX OPEN LENGTH = 112
+
+h$\_$manhattan:\\
+Length of solution path found: 14 edges\\
+31 states expanded.\\
+MAX OPEN LENGTH = 22
+
+h$\_$custom:\\
+Length of solution path found: 14 edges\\
+68 states expanded.\\
+MAX OPEN LENGTH = 45
+
+
+puzzle16a.py:
+CREATE$\_$INITIAL$\_$STATE = lambda: State([0, 8, 2, 1, 7, 4, 3, 6, 5])
+
+h$\_$euclidian:\\
+Length of solution path found: 16 edges\\
+165 states expanded.\\
+MAX OPEN LENGTH = 115
+
+h$\_$hamming:\\
+Length of solution path found: 16 edges\\
+547 states expanded.\\
+MAX OPEN LENGTH = 354
+Doesn't run
+
+h$\_$manhattan:\\
+Length of solution path found: 16 edges\\
+115 states expanded.\\
+MAX OPEN LENGTH = 79
+
+h$\_$custom:\\
+Length of solution path found: 16 edges\\
+217 states expanded.\\
+MAX OPEN LENGTH = 147
